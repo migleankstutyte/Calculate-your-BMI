@@ -1,0 +1,19 @@
+.data-row {
+  display: flex;
+  justify-content: center;
+  margin: 20px 0;
+  align-items: center;
+
+  &__text {
+    margin-right: 20px;
+    font-weight: bold;
+  }
+
+  input {
+    font-size: 20px;
+    border: 1px solid black;
+    height: 40px;
+    width: 150px;
+    padding: 0 10px;
+  }
+}
