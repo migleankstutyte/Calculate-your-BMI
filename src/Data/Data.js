@@ -5,7 +5,6 @@ class Data extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            placeholder: props.placeholder,
             value: props.value
         };
     }
@@ -16,7 +15,6 @@ class Data extends React.Component {
                 <p className="data-row__text">{this.props.text}</p>
                 <input
                     onChange={this.props.changed}
-                    placeholder={this.props.placeholder}
                     value={this.props.value}/>
             </div>
         )

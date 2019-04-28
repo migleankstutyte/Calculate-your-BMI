@@ -1,21 +1,29 @@
 .App {
   text-align: center;
-  width: 700px;
   position: absolute;
   transform: translate(-50%, -50%);
   top: 50%;
   left: 50%;
+    }
+  @media (max-width: 800px) {
+    .App {
+      transform: none;
+      top: 0;
+      left: 0;
+      position: inherit;
+    }
+  }
 
   .container {
     background-color: white;
     border: 1px solid black;
     font-size: 20px;
+    padding: 20px;
 
     &__buttons {
       display: flex;
-      width: 50%;
       justify-content: space-evenly;
-      margin: auto;
+      margin: 20px auto;
 
       button {
         border: 1px solid black;
@@ -25,7 +33,42 @@
         color: white;
         font-weight: bold;
         border-radius: 2px;
+        cursor: pointer;
+      }
+    }
+
+    &__results {
+      height: 135px;
+
+      &-hidden {
+        display: none;
+      }
+
+      &-show {
+        flex-direction: column;
+      }
+
+      .data-row {
+        margin: 10px 0;
+
+        &__text {
+          margin: 0;
+          margin-right: 20px;
+          width: 200px;
+          text-align: right;
+
+          &--center {
+            text-align: center;
+            margin: 0;
+            font-weight: bold;
+            font-size: 25px;
+          }
+        }
+
+        span {
+          width: 200px;
+          text-align: left;
+        }
       }
     }
   }
-}

@@ -1,95 +1,121 @@
-import React, {Component} from 'react';
-import './App.scss';
-import Title from './Title/Title';
-import Data from './Data/Data';
+import React, { Component } from "react";
+import "./App.scss";
+import Title from "./Title/Title";
+import Data from "./Data/Data";
 
 class App extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            name: "Your name",
-            height: "0.00",
-            weight: 0,
-            bmi: "-",
-            bmiClass: "-"
-        }
+  constructor(props) {
+    super(props);
+    this.state = this.defaultState;
 
-        this.nameChangedHandler = this.nameChangedHandler.bind(this);
-        this.submitClickHandler = this.submitClickHandler.bind(this);
-    }
+    this.nameChangedHandler = this.nameChangedHandler.bind(this);
+    this.submitClickHandler = this.submitClickHandler.bind(this);
+  }
 
-    // defaultState = () => {
-    //     return {
-    //         placeholder: [
-    //             {
-    //                 name: "Your name",
-    //                 height: "0.00",
-    //                 weight: 0,
-    //                 bmi: "",
-    //                 bmiClass: ""
-    //             },
-    //         ]
-    //     };
-    // }
+  nameChangedHandler = event => {
+    this.setState({
+      name: event.target.value
+    });
+  };
 
-    // handleSubmit = (event) => {
-    //     alert('Your favorite flavor is: ' + this.state.value);
-    //     event.preventDefault();
-    //     console.log("Calculate")
-    // }
+  heightChangedHandler = event => {
+    this.setState({
+      height: event.target.value
+    });
+  };
 
-    submitClickHandler(event) {
-        alert('Your favorite flavor is: ' + this.state.name);
-        console.log("Calculate");
+  weightChangedHandler = event => {
+    this.setState({
+      weight: event.target.value
+    });
+  };
 
-    }
+  submitClickHandler() {
+    let bmiValue = (
+      (this.state.weight / this.state.height / this.state.height) *
+      10000
+    ).toFixed(2);
+    this.setState({
+      name: this.state.name,
+      bmi: bmiValue,
+      bmiResult: this.getResult(bmiValue),
+      shouldHide: false
+    });
+  }
 
-    nameChangedHandler = (event) => {
-        this.setState({
-            name: event.target.value
-        })
-        console.log(event.target.value);
-    }
+  getResult = bmiValue => {
+    if (bmiValue < 18.5) return "Underweight";
+    if (bmiValue >= 18.5 && bmiValue <= 24.9) return "Normal Weight";
+    if (bmiValue >= 25 && bmiValue <= 29.9) return "Overweight";
+    if (bmiValue >= 30) return "Obese";
+  };
 
-    reset = () => {
-        this.setState(this.baseState)
-        console.log("reset");
-    }
+  reset = () => {
+    this.setState(this.defaultState);
+  };
 
-    render() {
-        return (
-            <div className="App">
-                {/*<Title/>*/}
-                <div className="container">
-                    <Data
-                        type="text"
-                        text="Insert name:"
-                        value={this.state.name}
-                        // placeholder={this.state.placeholder[0].name}
-                        changed={this.nameChangedHandler}/>
-                    <Data
-                        type="number"
-                        text="Your height:"
-                        value={this.state.height}
-                        // placeholder={this.state.placeholder[0].height}
-                        changed={this.nameChangedHandler}/>
-                    <Data
-                        type="number"
-                        text="Your weight:"
-                        value={this.state.weight}
-                        // placeholder={this.state.placeholder[0].weight}
-                        changed={this.nameChangedHandler}/>
-                    <div className="container__buttons">
-                        <button type="submit" value="Submit" onClick={this.submitClickHandler}>Calculate</button>
-                        <button onClick={this.reset}>Reset</button>
-                    </div>
-                    <p className="data-row__text">{this.state.name}</p>
-                    <p className="data-row__text">Your BMI: {this.state.bmi}</p>
-                    <p className="data-row__text">You are: {this.state.bmiClass}</p>
-                </div>
+  defaultState = {
+    name: "",
+    height: "",
+    weight: "",
+    bmi: "",
+    bmiResult: "",
+    shouldHide: true
+  };
+
+  render() {
+    return (
+      <div className="App">
+        <Title />
+        <div className="container">
+          <Data
+            text="Insert your name:"
+            value={this.state.name}
+            changed={this.nameChangedHandler}
+          />
+          <Data
+            text="Your height (cm):"
+            value={this.state.height}
+            changed={this.heightChangedHandler}
+          />
+          <Data
+            text="Your weight (kg):"
+            value={this.state.weight}
+            changed={this.weightChangedHandler}
+          />
+          <div className="container__buttons">
+            <button
+              type="submit"
+              value="Submit"
+              onClick={this.submitClickHandler}
+            >
+              Calculate
+            </button>
+            <button onClick={this.reset}>Reset</button>
+          </div>
+          <div className="container__results">
+            <div
+              className={
+                this.state.shouldHide ? "container__results-hidden" : "container__results-show"
+              }
+            >
+              <div className="data-row">
+                <p className="data-row__text--center">{this.state.name},</p>
+              </div>
+              <div className="data-row">
+                <p className="data-row__text">Your BMI:</p>
+                <span>{this.state.bmi}</span>
+              </div>
+              <div className="data-row">
+                <p className="data-row__text">You are:</p>
+                <span>{this.state.bmiResult}</span>
+              </div>
             </div>
-        );
-    }
+          </div>
+        </div>
+      </div>
+    );
+  }
 }
 
 export default App;
